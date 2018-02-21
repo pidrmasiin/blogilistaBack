@@ -1,19 +1,12 @@
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
-const formatBlog = (blog) => {
-  return{
-    id: blog._id,
-    title: blog.title,
-    author: blog.author,
-    url: blog.url,
-    likes: blog.likes
-  }
-}
+
 
 blogRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({})
-  response.json(blogs.map(formatBlog))
+  response.json(blogs.map(Blog.format))
 })
 
 blogRouter.get('/:id', async (request, response) => {
@@ -21,7 +14,7 @@ blogRouter.get('/:id', async (request, response) => {
   try{
     const blog = await Blog.findById(request.params.id)
     if (blog) {
-      response.json(formatBlog(blog))
+      response.json(Blog.format(blog))
     } else {
       response.status(404).end()
     }
@@ -35,15 +28,26 @@ blogRouter.get('/:id', async (request, response) => {
 blogRouter.post('/', async (request, response) => {
   try {
     const body = request.body
+
     if(!body.likes){
       body.likes = 0
     } if(!body.url || !body.title){
       response.status(400)
-    }
+    } 
+
     const blog = new Blog(body)
 
-    await blog.save()
-    response.json(formatBlog(blog))
+
+    const savedBlog = await blog.save()
+
+    if(body.user){
+      const user = await User.findById(body.user)
+      const id = savedBlog._id
+      user.blogs = user.blogs.concat(id)
+      await user.save()
+    }
+
+    response.json(Blog.format(blog))
   } catch (exception) {
     console.log(exception)
     response.status(400).json({ error: 'something went wrong...' })
@@ -53,7 +57,7 @@ blogRouter.post('/', async (request, response) => {
 
 blogRouter.put('/:id', async (request, response) => {
   try{
-    const likes = request.body 
+    const likes = request.body
     const edited = await Blog.findByIdAndUpdate(request.params.id, likes, { new: true })
     response.json(edited).end()
   }catch (exception) {

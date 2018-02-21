@@ -2,8 +2,9 @@ POST http://localhost:3001/api/blogs
 content-type: application/json
 
 {
-  "title": "kolmas",
-  "author": "bloggaaja",
+  "title": "Meikän Blogi",
+  "author": "Jokunen",
   "url": "kotisivut",
-  "likes": 0
+  "likes": 5,
+  "user": "5a8d5f6300ce8c2363ab21e5"
 }

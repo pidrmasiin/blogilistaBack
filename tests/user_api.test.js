@@ -41,14 +41,12 @@ describe('blogs are returned', async () => {
       name: 'Superuser',
       password: 'sa'
     }
-   
     const result = await api
       .post('/api/users')
       .send(newUser)
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-    console.log('moi', result.body)
     expect(result.body).toEqual({ error: 'password must contain at least 3 characters' })
 
   })

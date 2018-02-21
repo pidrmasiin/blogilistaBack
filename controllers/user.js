@@ -4,7 +4,9 @@ const User = require('../models/user')
 
 
 userRouter.get('/', async (request, response) => {
-  const users = await User.find({})
+  const users = await User
+    .find({})
+    .populate('blogs')
   response.json(users.map(User.format))
 })
 
@@ -27,7 +29,8 @@ userRouter.post('/', async (request, response) => {
       username: body.username,
       name: body.name,
       passwordHash,
-      adult: body.adult
+      adult: body.adult,
+      blogs: body.blogs
     })
 
     const savedUser = await user.save()
