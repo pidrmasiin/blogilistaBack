@@ -8,6 +8,7 @@ const middleware = require('./utils/middleware')
 const blogRouter = require('./controllers/blog')
 const userRouter = require('./controllers/user')
 const config = require('./utils/config')
+const loginRouter = require('./controllers/login')
 
 
 mongoose.connect(config.mongoUrl)
@@ -19,8 +20,10 @@ app.use(bodyParser.json())
 app.use(express.static('build'))
 app.use(middleware.morg)
 
+app.use(middleware.tokenExtractor)
 app.use('/api/blogs', blogRouter)
 app.use('/api/users', userRouter)
+app.use('/api/login', loginRouter)
 
 app.use(middleware.error)
 

@@ -1,10 +1,11 @@
 POST http://localhost:3001/api/blogs 
 content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBlZHJvbiAiLCJpZCI6IjVhOGU5YmIxYzE5OWQ1MWVkN2U2YjI4ZCIsImlhdCI6MTUxOTI5NTQ2MX0.RHPiRvnL5tF9jl_C7MrhuBEmehPGAbWNCOHtBdzaxgE
 
 {
-  "title": "Meikän Blogi",
-  "author": "Jokunen",
+  "title": "Real Pedron Blogi",
+  "author": "Pedro",
   "url": "kotisivut",
-  "likes": 5,
-  "user": "5a8d5f6300ce8c2363ab21e5"
+  "likes": 1034,
+  "user": "5a8e9bb1c199d51ed7e6b28d"
 }
